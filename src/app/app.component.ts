@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ConnectionQuality, ConnectionState, DisconnectReason, LocalAudioTrack, LocalParticipant, MediaDeviceFailure, Participant, ParticipantEvent, RemoteParticipant, RemoteTrackPublication, Room, RoomConnectOptions, RoomEvent, RoomOptions, Track, TrackPublication, VideoCodec, VideoPreset, VideoPresets, VideoQuality } from 'livekit-client';
+import { ConnectionQuality, ConnectionState, DisconnectReason, LocalAudioTrack, LocalParticipant, MediaDeviceFailure, Participant, ParticipantEvent, RemoteParticipant, RemoteTrackPublication, Room, RoomConnectOptions, RoomEvent, RoomOptions, Track, TrackPublication, VideoCaptureOptions, VideoCodec, VideoPreset, VideoPresets, VideoQuality } from 'livekit-client';
 import { createAudioAnalyser } from 'src/utils';
 
 export enum DataPacket_Kind {
@@ -328,6 +328,24 @@ export class AppComponent {
           });
         });
       }
+    },
+
+    flipVideo: () => {
+      const videoPub = this.currentRoom?.localParticipant.getTrack(Track.Source.Camera);
+      if (!videoPub) {
+        return;
+      }
+      if (this.state.isFrontFacing) {
+        this.setButtonState('flip-video-button', 'Front Camera', false);
+      } else {
+        this.setButtonState('flip-video-button', 'Back Camera', false);
+      }
+      this.state.isFrontFacing = !this.state.isFrontFacing;
+      const options: VideoCaptureOptions = {
+        resolution: VideoPresets.h720.resolution,
+        facingMode: this.state.isFrontFacing ? 'user' : 'environment',
+      };
+      videoPub.videoTrack?.restartTrack(options);
     },
 
     shareScreen: async () => {
