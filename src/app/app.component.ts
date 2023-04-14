@@ -45,6 +45,8 @@ export class AppComponent {
 
   async ngOnInit() {
 
+    this.acquireDeviceList();
+
 
     // this.at.addGrant({
     //   roomJoin: true,
@@ -186,7 +188,7 @@ export class AppComponent {
         await room.connect(url, token, connectOptions);
         const elapsed = Date.now() - this.startTime;
 
-        this.appendLog(
+        console.log(
           `successfully connected to ${room.name} in ${Math.round(elapsed)}ms`,
           await room.engine.getConnectedServerAddress(),
         );
@@ -718,6 +720,10 @@ export class AppComponent {
       lp.isScreenShareEnabled ? 'Stop Screen Share' : 'Share Screen',
       lp.isScreenShareEnabled,
     );
+  }
+
+  async acquireDeviceList() {
+    this.handleDevicesChanged();
   }
 
 }

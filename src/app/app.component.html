@@ -128,7 +128,7 @@
             class="btn btn-secondary mt-1"
             disabled
             type="button"
-            onclick="appActions.flipVideo()"
+            (click)="appActions.flipVideo()"
           >
             Flip Camera
           </button>
@@ -145,7 +145,7 @@
             id="simulate-scenario"
             class="custom-select"
             style="width: auto"
-            (input)="appActions.handleScenario($event)"
+            (change)="appActions.handleScenario($event)"
           >
             <option value="" selected>Simulate</option>
             <option value="signal-reconnect">Signal reconnect</option>
@@ -172,7 +172,7 @@
             class="btn btn-secondary mt-1"
             disabled
             type="button"
-            onclick="appActions.startAudio()"
+            (click)="appActions.startAudio()"
           >
             Start Audio
           </button>
@@ -180,7 +180,7 @@
             id="preferred-quality"
             class="custom-select"
             style="width: auto"
-            onchange="appActions.handlePreferredQuality(event)"
+            (change)="appActions.handlePreferredQuality($event)"
           >
             <option value="" selected>PreferredQuality</option>
             <option value="high">high</option>
@@ -191,7 +191,7 @@
             id="preferred-fps"
             class="custom-select"
             style="width: auto"
-            onchange="appActions.handlePreferredFPS(event)"
+            (change)="appActions.handlePreferredFPS($event)"
           >
             <option value="" selected>PreferredFPS</option>
             <option value="30">30</option>
@@ -206,7 +206,7 @@
           <select
             id="video-input"
             class="custom-select"
-            onchange="appActions.handleDeviceSelected(event)"
+            (change)="appActions.handleDeviceSelected($event)"
           >
             <option selected>Video Input (default)</option>
           </select>
@@ -215,7 +215,7 @@
           <select
             id="audio-input"
             class="custom-select"
-            onchange="appActions.handleDeviceSelected(event)"
+            (change)="appActions.handleDeviceSelected($event)"
           >
             <option selected>Audio Input (default)</option>
           </select>
@@ -224,7 +224,7 @@
           <select
             id="audio-output"
             class="custom-select"
-            onchange="appActions.handleDeviceSelected(event)"
+            (change)="appActions.handleDeviceSelected($event)"
           >
             <option selected>Audio Output (default)</option>
           </select>
@@ -249,7 +249,7 @@
               id="send-button"
               class="btn btn-primary"
               type="button"
-              onclick="appActions.enterText()"
+              (click)="appActions.enterText()"
               disabled
             >
               Send
