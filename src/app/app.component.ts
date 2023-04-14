@@ -2,11 +2,18 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ConnectionQuality, ConnectionState, DisconnectReason, LocalAudioTrack, LocalParticipant, MediaDeviceFailure, Participant, ParticipantEvent, RemoteParticipant, RemoteTrackPublication, Room, RoomConnectOptions, RoomEvent, RoomOptions, Track, TrackPublication, VideoCodec, VideoPreset, VideoPresets, VideoQuality } from 'livekit-client';
 import { createAudioAnalyser } from 'src/utils';
 
+export enum DataPacket_Kind {
+  RELIABLE = 0,
+  LOSSY = 1,
+  UNRECOGNIZED = -1,
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
 
   @ViewChild('myDiv', { static: false }) myDiv!: ElementRef;
@@ -336,6 +343,19 @@ export class AppComponent {
 
     startAudio: () => {
       this.currentRoom?.startAudio();
+    },
+
+    enterText: () => {
+      if (!this.currentRoom) return;
+      const textField = <HTMLInputElement>this.$('entry');
+      if (textField.value) {
+        const msg = this.state.encoder.encode(textField.value);
+        this.currentRoom.localParticipant.publishData(msg, DataPacket_Kind.RELIABLE);
+        (<HTMLTextAreaElement>(
+          this.$('chat')
+        )).value += `${this.currentRoom.localParticipant.identity} (me): ${textField.value}\n`;
+        textField.value = '';
+      }
     },
 
   }
